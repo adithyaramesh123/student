@@ -28,7 +28,7 @@ app.get('/',async(req,res)=>{
 app.delete ('/:id',async(req,res)=>{
     try {
         console.log(req.params.id)
-        await sModel.findByIdAndDelete(req.params.id);
+        await sampleModel.findByIdAndDelete(req.params.id);
         res.send("Data Deleted")
     } catch (error) {
         res.send(error)
