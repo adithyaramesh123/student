@@ -1,26 +1,27 @@
 var express=require("express");
 var app=express();
-var port=2000;
+var port=4000;
 require('./db')
-var sampleModel=require('./model/sample')
+var sModel=require('./model/sample')
 //middleware
 app.use(express.json());
 //writing API add data to DB
 app.post ('/',(req,res)=>{
     try {
-        sampleModel(req.body).save();
+        sModel(req.body).save();
         res.send("Data added")
     } catch (error) {
         res.send(error)
         
     }
 })
+//API read
 app.get('/',async(req,res)=>{
     try {
-        var data=await sampleModel.find();
+        var data=await sModel.find();
         res.send(data)
-    } catch (err) {
-       res.send(err)
+    } catch (error) {
+        res.send(error)
         
     }
 })
@@ -28,19 +29,22 @@ app.get('/',async(req,res)=>{
 app.delete ('/:id',async(req,res)=>{
     try {
         console.log(req.params.id)
-        await sampleModel.findByIdAndDelete(req.params.id);
+        await sModel.findByIdAndDelete(req.params.id);
         res.send("Data Deleted")
     } catch (error) {
         res.send(error)
         
     }
 })
-
-
-
-
-
-
+app.put('/:id',async(req,res)=>{
+    try {
+        console.log(req.params.id)
+        await sModel.findByIdAndUpdate(req.params.id,req.body);
+        res.send("Edited")
+    } catch (error) {
+      res.send(error)  
+    }
+})
 
 
 app.listen(port,()=>{
